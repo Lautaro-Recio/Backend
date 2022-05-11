@@ -6,11 +6,10 @@ const servidor = app.listen(PORT,()=>{
     console.log(`Servidor con express escuchando en el puertoa ${PORT}` )
 })
 const contenedor7=new contenedor("./productos.txt")
-contenedor7.save("Manos",1550, "a")
-contenedor7.save("Manoasdass",130, "asdasa")
-contenedor7.save("asdasd",1300, "asdasa")
-
-contenedor7.save("adasd",130, "asdasa")
+contenedor7.save("Coca cola",200, "imagen coca")
+contenedor7.save("Sprite",180, "imagen Sprite")
+contenedor7.save("Fanta",160, "Imagen Fanta")
+contenedor7.save("Pepsi",190, "Imagen Pepsi")
 
 app.get("/productos",  (req,res)=>{
     const prods =  contenedor7.products
