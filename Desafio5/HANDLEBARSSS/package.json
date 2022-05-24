@@ -1,5 +1,5 @@
 {
-  "name": "clase9",
+  "name": "HANDLEBARSSS",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.1",
-    "express-handlebars": "^6.0.6"
+    "express-handlebars": "^6.0.6",
+    "handlebars": "^4.7.7"
   }
 }

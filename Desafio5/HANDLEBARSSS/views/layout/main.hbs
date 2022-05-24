@@ -1,0 +1,30 @@
+{{>header}}
+<hr>
+
+<div class="jumbotron">         
+    <h3>{{bienvenidos }}</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Imagen</th>
+        </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+                <tr>
+                    <td>{{this.id}}</td>
+                    <th>{{this.product}}</th>
+                    <td>{{this.price}}</td>
+                    <td><img style="height:50px; width:50px" src={{this.thumbnail}} alt={{this.product}}></td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+            {{!-- Esto sirve para hiterar y graficar un array, por ejemplo de alumnos --}}
+</div>
+<hr>
+
+{{>footer}}

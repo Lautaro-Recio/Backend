@@ -1,0 +1,12 @@
+{{>header}}
+    <h3>estamos en la comision n° {{comision }}</h3>
+    <ul>
+        {{!-- Esto sirve para hiterar y graficar un array, por ejemplo de alumnos --}}
+        {{#each alumnos}}
+        <li>
+            {{!-- asi ingreso a cada uno de los campos dentro del array alumnos --}}
+            {{this.nombre}} {{this.edad}}
+        </li>
+        {{/each}}
+    </ul>
+{{>footer}}
