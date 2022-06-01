@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include("./partials/head.ejs")%>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <!-- Se incrustan valores  -->
+            <%-include("./partials/header.ejs",{current:"index"})%>
+
+        </header>
+        <hr>
+        <main>
+            <div class="jumbotron">
+                <h2><%= bienvenidos %></h2>
+                <%-include("./form.ejs")%>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Imagen</th>
+                          </tr>
+                        </thead>
+                            <tbody id="tBody">
+                          
+                            </tbody>
+                        </table>
+                <%-include("./chat.ejs")%>
+
+            </div>
+        </main>
+        <hr>
+        <footer>
+            <%-include("./partials/footer.ejs")%>
+            
+        </footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js" integrity="sha512-juaCj8zi594KHQqb92foyp87mCSriYjw3BcTHaXsAn4pEB1YWh+z+XQScMxIxzsjfM4BeVFV3Ij113lIjWiC2w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./chat.js"></script>
+</body>
