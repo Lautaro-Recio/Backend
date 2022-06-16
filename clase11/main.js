@@ -1,3 +1,11 @@
+//const { options } = require('./db/ecommerce')
+const { options } = require('./db/sqlite3')
+
+const knex = require('knex')(options)
+
+
+
+
 const express = require("express")
 //Asi se renombra una variable
 const {Server:IOserver} = require("socket.io")
@@ -38,11 +46,28 @@ io.on("connection",(socket)=>{
 
    //
     socket.on("MensajeAServidor",data=>{
-        mensajes.push({socketId:socket.id,mensaje:data})
+        mensajes.push({usuario:socket.id,mensaje:data})
         console.log(mensajes)
         io.sockets.emit("mensajeAClientes", {socketId:socket.id,mensaje:data})
-        
+        knex("mensajes")
+                .insert(mensajes) //insertamos el arreglo mensajes a la tabla products
+                .then(() => console.log(`mensajes insertados`))
+                .catch(err => console.log(`Error: ${err.message}`))
+                .finally(() => knex.destroy())
+   
+                knex
+                .from("mensajes") //tomamos datos desde products
+                .select('*')  //* es igual a todos los datos
+                .then(mensajesEnBD => { //con esto obtenemos un JSON y lo manejamos
+                    console.log(mensajesEnBD)
+                    console.log(`Total de productos: ${mensajesEnBD.length}`)
+                    mensajesEnBD.forEach(msj => {
+                        console.log(`mensajes: ${msj.mensaje} del usuario ${msj.usuario}`)
+                    })
+                })    //aca devolvemos los productos a partir de una promise, por eso el then
+                .catch(err => console.log(`Error: ${err.message}`))
+                .finally(() => knex.destroy())
+            })
     })
 
-   
-})
+
