@@ -1,0 +1,60 @@
+use productos
+
+ const productos= [
+    {title:"Fifa",price:5000,thumbnail:"imagenFifa.png"},
+    {title:"Call of Duty",price:3000,thumbnail:"imagenCallOfDuty.png"},
+    {title:"Resident Evil 4",price:52000,thumbnail:"imagenFifaResidentEvil4.png"},
+    {title:"Fall guys",price:1000,thumbnail:"imagenFallGuys.png"},
+    {title:"Minecraft",price:5000,thumbnail:"imagenMinecraft.png"},
+    {title:"Rocket League",price:5000,thumbnail:"imagenRocketLeague.png"},
+    {title:"Dead Island",price:5000,thumbnail:"imagenDeadIsland.png"},
+    {title:"Imfamous",price:5000,thumbnail:"imagenImfamous.png"},
+    {title:"Apex Legends",price:5000,thumbnail:"imagenApexLegends.png"},
+    {title:"Sims",price:5000,thumbnail:"imagenSims.png"},
+    
+]
+
+db.productos.insertMany(products)
+
+db.productos.find()
+
+db.productos.count()
+
+db.productos.insertOne({title:"Plantas vs Zombies",price:5000,thumbnail:"imagenPlantasVsZombies.png"},)
+
+db.productos.find({price:{$lt:1000}})
+
+db.productos.find({$and:[{price:{$gte:1000}},{price:{$lte:3000}}]})
+
+db.productos.find({},{title:true}).sort({price: 1}).limit(1).skip(2)
+
+db.productos.updateMany({},{$set:{"stock":100}})
+
+db.productos.updateMany({price:{$gt:4000}},{$set:{"stock":0}})
+
+db.productos.deleteMany({price:{$lt:1000}})
+---------------------------------------------------------------------------------------------------
+
+use mensajes
+
+ const mensajes= [
+    {usuario:"Lautaro",mensaje:"Hola gebte"},
+    {usuario:"Milagors",mensaje:"Como estan todos?"},
+    {usuario:"Pedro",mensaje:"Y yo la verdad mal"},
+    {usuario:"Pepe",mensaje:"Porque pedro?"},
+    {usuario:"Maradona",mensaje:"ug que paso?"},
+    {usuario:"Messi",mensaje:"Maradona pusiste ug"},
+    {usuario:"El conejo malo",mensaje:"Pedro conta que onda"},
+    {usuario:"Peppa",mensaje:"Por lo que se le fue mal en el entregable de coderHouse"},
+    {usuario:"Juan",mensaje:"Uuuuh que mala suerte"},
+    {usuario:"Esteban",mensaje:"Seguro se puede corregir"},
+    
+]
+
+
+db.mensajes.insertMany(mensajes)
+db.mensajes.find()
+db.mensajes.count()
+
+
+db.createUser({user:"pepe",pwd:"asd456",roles:[role:"read"]})
