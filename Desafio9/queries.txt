@@ -14,7 +14,7 @@ use productos
     
 ]
 
-db.productos.insertMany(products)
+db.productos.insertMany(productos)
 
 db.productos.find()
 
