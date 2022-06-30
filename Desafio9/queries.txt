@@ -57,4 +57,4 @@ db.mensajes.find()
 db.mensajes.count()
 
 
-db.createUser({user:"pepe",pwd:"asd456",roles:[role:"read"]})
+db.createUser({user:"pepe",pwd:"asd456",roles:[{role:"read":blog:"ecommerce"}]})
