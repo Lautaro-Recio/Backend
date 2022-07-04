@@ -1,4 +1,4 @@
-const contenedorMysql = require("../../contenedores/contenedorMysql.js");
+import contenedorMysql from "../../contenedores/contenedorMysql.js"
 
 
 
@@ -10,4 +10,4 @@ class prodsDaoMySql extends contenedorMysql{
         super(options,"productos")
     }
 }
-module.exports = prodsDaoMySql
+export default prodsDaoMySql

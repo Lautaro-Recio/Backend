@@ -1,4 +1,4 @@
-const fs =require("fs")
+import fs from "fs"
 
 class contenedorArchivo{
     constructor(name){
@@ -33,5 +33,4 @@ class contenedorArchivo{
     }
 }
 
-
-module.exports = contenedorArchivo
+export default contenedorArchivo

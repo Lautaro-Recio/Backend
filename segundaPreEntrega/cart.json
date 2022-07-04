@@ -1,6 +1,18 @@
 [
   {
-    "name": "Carrito n1",
-    "products": "Coca"
+    "name": "prueba 1 con carrito",
+    "description": "Dificil",
+    "stock": 80,
+    "codigo": "rf243542",
+    "foto": "foto.jpg",
+    "price": "465"
+  },
+  {
+    "name": "prueba 2 con carrito",
+    "description": "Dificil",
+    "stock": 80,
+    "codigo": "rf243542",
+    "foto": "foto.jpg",
+    "price": "465"
   }
 ]

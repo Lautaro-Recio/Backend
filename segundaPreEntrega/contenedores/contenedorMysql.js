@@ -1,8 +1,8 @@
-
+import knex from "knex"
 
 class contenedorMysql{
     constructor (options,table){
-        this.knex = require("knex")(options)
+        this.knex = knex(options)
         this.table = table
 
     }
@@ -56,5 +56,4 @@ class contenedorMysql{
 
 
 }
-
-module.exports = contenedorMysql
+export default contenedorMysql

@@ -1,5 +1,5 @@
 // db.js
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const URL = 'mongodb://localhost:27017/productos'
 
@@ -8,7 +8,7 @@ const connection = mongoose.connect(URL, {
  useUnifiedTopology: true
 })
 
-module.exports = connection
+export default connection
 
 
 //coneccion a base de datos

@@ -29,4 +29,4 @@ class contenedorMemoria{
 
 }
 
-module.exports = contenedorMemoria
+export default contenedorMemoria

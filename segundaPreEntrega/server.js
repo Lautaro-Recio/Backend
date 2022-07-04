@@ -1,10 +1,9 @@
-const express= require("express")
-const productsRouter = require("./routers/productsRouter")
-const cartRouter = require("./routers/cartRouter")
+import express from "express"
+import productsRouter  from "./routers/productsRouter.js"
+import cartRouter  from "./routers/cartRouter.js"
 
 const app = express()
 const STORAGE = process.env.STORAGE|| 3000;
-console.log(STORAGE);
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 

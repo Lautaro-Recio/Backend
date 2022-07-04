@@ -1,4 +1,4 @@
-const contenedorArchivo = require("../../contenedores/contenedorArchivo");
+import contenedorArchivo from "../../contenedores/contenedorArchivo.js"
 
 class prodsDaoArhivo extends contenedorArchivo{
     constructor(){
@@ -7,4 +7,4 @@ class prodsDaoArhivo extends contenedorArchivo{
         super("./productsEnArchivo.json")
     }
 }
-module.exports = prodsDaoArhivo
+export default prodsDaoArhivo

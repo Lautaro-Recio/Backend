@@ -1,72 +1,44 @@
-const {Router }= require("express")
-const contenedorMysql = require("../contenedores/contenedorMysql.js")
-const ContenedorMemoria = require("../contenedores/contenedorMemoria.js")
-const ContenedorMongoDb = require("../contenedores/contenedorMongoDB")
-const ContenedorFirebase = require("../contenedores/contenedorFirebase")
-
-const productosDaoArchivo = require("../daos/productos/productosDaoArchivo")
-
+import Router  from "express"
 
 const productsRouter = Router()
 
-//FIREBASE
-/* const contenedorFirebase = new ContenedorFirebase() */
+import productosDao from '../daos/index.js'
 
+const admin = false
 
-
-
-//Se guarda en una memoria local, al actualizar la pagina esta info se pierde
-const contenedorMemoria = new ContenedorMemoria()
-
-//MONGO DB
-const userModel = require('../esquemas/models/productos')
-const db = require("../db")
-const contenedorMongo = new ContenedorMongoDb(db,userModel)
-
-//Se escribe en un archivo json
-const ProductosDao = new productosDaoArchivo("./productsEnArchivo.json")
-
-
-
-
-
-/* -----------------------------------------------------------
-    QUEDA POR HACER LA PERSISTENCIA EN FIREBASE
-    LOS DAOS
-    Y EL ROUTER DE LOS CARTS
-
-
---------------------------------------------------------------*/
-
-
-
-//Se escribe en una base de datos mariaDb
-const options = {
-    client: 'mysql',
-    connection: {
-      host: '127.0.0.1',
-      user: 'root',
-      password: '',
-      database: 'dbProductos'
-    },
+function rutaNoDisponible(ruta, metodo) {
+    const error = {
+        error: -1,
+    }
+    if (ruta && metodo) {
+        error.descripcion = `ruta '${ruta}' metodo '${metodo}' no autorizado`
+    } else {
+        error.descripcion = 'no autorizado'
+    }
+    return error
 }
-const ProductosDaoMysql = new contenedorMysql(options,"productos")
 
-const ContenedorMysql = new contenedorMysql(options,"productos")
+function admins(req, res, next) {
+    if (!admin) {
+        res.json(rutaNoDisponible())
+    }else {
+        next()
+    }
+}
 
-productsRouter.get("/",(req,res)=>{
-    return products = contenedorMongo.findAll()
-        .then(products =>{
-            console.log(products)
+productsRouter.get("/",async (req,res)=>{
+    const products = await productosDao.productosDao.findAll()
+        .then(productos =>{
+            console.log(productos)
 
-            return res.json(products)
+            return res.json(productos)
         })
 })
 
 
-productsRouter.get("/:id",(req,res)=>{
+productsRouter.get("/:id",async (req,res)=>{
     const id = parseInt(req.params.id)
-    return productos = contenedorMongo.findOne(id)
+    const productos = await productosDao.productosDao.findOne(id)
         .then(productos =>{
             console.log("Routeer")
 
@@ -76,10 +48,10 @@ productsRouter.get("/:id",(req,res)=>{
         })
 })
 
-productsRouter.post("/",(req,res)=>{
+productsRouter.post("/",admins,async(req,res)=>{
     const newProd = req.body
     console.log(newProd)
-    return contenedorMongo.create(newProd)
+    return productosDao.productosDao.create(newProd)
         .then(newProduct=>{
             console.log(newProduct)
 
@@ -91,11 +63,11 @@ productsRouter.post("/",(req,res)=>{
 })
 
 
-productsRouter.put("/:id",(req,res)=>{
+productsRouter.put("/:id",admins,async(req,res)=>{
     const updateProd = req.body
     const id = parseInt(req.params.id)
     const product= updateProd
-    return contenedorMongo.update(id,product)
+    return productosDao.productosDao.update(id,product)
         .then(updateProds=>{
             console.log(updateProds)
 
@@ -106,9 +78,9 @@ productsRouter.put("/:id",(req,res)=>{
 })
 
 
-productsRouter.delete("/:id",(req,res)=>{
+productsRouter.delete("/:id",admins,async(req,res)=>{
     const id = parseInt(req.params.id)
-    return contenedorMongo.delete(id)
+    return productosDao.productosDao.delete(id)
         .then(updateProds=>{
             console.log(updateProds)
 
@@ -117,4 +89,4 @@ productsRouter.delete("/:id",(req,res)=>{
         })
 
 })
-module.exports= productsRouter
+export default productsRouter
