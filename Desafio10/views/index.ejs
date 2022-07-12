@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include("./partials/head.ejs")%>
+
+</head>
+<body>
+    <div class="container">
+        <hr>
+            <main>
+                        
+                <% if(productos.length===0){%>
+                    <h3>No hay productos</h3>
+                    <%}else{%>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Imagen</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%productos.forEach(prod=>{ %>
+                                <tr>
+                                <td><%=prod.product %></td>
+                                <td>$<%=prod.price %></td>
+                                <td><img style="height:50px; width:50px" src=<%=prod.foto %> alt=<%=prod.product %>></td>
+                                </tr>
+                        <%})%>
+                            </tbody>
+                        </table>
+                    <%}%>
+
+            </main>
+        <hr>
+        <footer>
+            <%-include("./partials/footer.ejs")%>
+            
+        </footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js" integrity="sha512-juaCj8zi594KHQqb92foyp87mCSriYjw3BcTHaXsAn4pEB1YWh+z+XQScMxIxzsjfM4BeVFV3Ij113lIjWiC2w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./chat.js"></script>
+</body>
