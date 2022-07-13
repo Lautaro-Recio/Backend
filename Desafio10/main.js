@@ -1,14 +1,15 @@
 import  express from "express"
 import db from "./mongo/db.js"
 import usersPath from "./mongo/users.js"
-
+import fs from "fs"
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import { normalize, schema, } from 'normalizr'
+import faker from "faker" 
+
 const app = express()
 const httpServer = new createServer(app)
 const io = new Server(httpServer)
-import faker from "faker" 
-import normalizr from "normalizr" 
 
 faker.locale = "es"
 const{commerce,image} = faker
@@ -36,8 +37,6 @@ app.get("/api/productos-test",(req,res)=>{
 
 
 
-
-
 app.get("/",(req,res)=>{
   
     res.render("chatContainer")
@@ -46,62 +45,90 @@ app.get("/",(req,res)=>{
 const PORT = 8080
 httpServer.listen(PORT,()=>console.log(`servidor escuchando en puerto ${PORT}`))
 
-
-io.on("connection",socket => {
+    io.on("connection",socket => {
     
-    socket.on("entrando al chat",(data)=>{
-        async function buscar(){
-            try {
-                let usersMongo = await usersPath.find({}, { __v: 0 }).lean()
-                io.sockets.emit("mensajesFirebase",usersMongo)
-            } catch (error) {
-                console.log(`Error al listar todo`)
-            }
-        }
-        buscar()
-        socket.on("mensajes",(dataMsj)=>{
-            console.log(`El mensaje es ${dataMsj}`)
-            let usuario=data
-            usuario.text=dataMsj
-            const mensajesSchema= new normalizr.schema.Entity("mensajes")
-            const autorSchema= new normalizr.schema.Entity("autores")
-
-            const schemaPrincipal= {
-                author:autorSchema,
-                mensajes:mensajesSchema
-            }
-            const normalizedMsjs= normalizr.normalize(usuario,schemaPrincipal)
-            console.log(normalizedMsjs)
-            async function escribir(){
+        socket.on("entrando al chat",(data)=>{
+            async function buscar(){
                 try {
-                    let doc = await usersPath.create(normalizedMsjs.entities);
+                    console.log("Lectura de users")
+                    let usersMongo = await usersPath.find({}).lean()
+                    console.log("usersMongo")
+
+                   /*  // Definimos un esquema de autor
+                    const schemaAuthor = new schema.Entity('author', {}, { idAttribute: 'email' });
                    
-                    return doc
+                    // Definimos un esquema de mensaje
+                    const schemaMensaje = new schema.Entity('post', { author: schemaAuthor }, { idAttribute: 'id' })
+                   
+                    // Definimos un esquema de posts
+                    const schemaMensajes = new schema.Entity('posts', { mensajes: [schemaMensaje] }, { idAttribute: 'id' })
+                   
+                    const normalizarMensajes = normalize(usersMongo, schemaMensajes)
+                    
+                    */
+
+                    /* 
+                        Entidad principal user
+                        dentro esta la entidad author
+                        dentro esta la entidad text
+                    */
+                        const schemaAuthor = new schema.Entity('author', {}, { idAttribute: 'id' });
+                        const mensajesSchema= new schema.Entity("mensajes", { author: schemaAuthor }, { idAttribute: 'id' })
+                        
+                        const normalizedMsjs= new schema.Entity("usersMensajes",{ mensajes: [mensajesSchema] }, { idAttribute: 'id' })
+                   
+                        const normalizarMensajes = normalize(usersMongo, normalizedMsjs)
+                        
+
+
+
+                   
+                    
+                    console.log("normalizado")                
+                    console.log(normalizarMensajes)
+                    
+                    
+                    
+                    
+                    
+                    
+                    io.sockets.emit("mensajesFirebase",normalizarMensajes)
+
+                    return normalizarMensajes
+                } catch (error) {
+                    console.log(`Error al listar todo: ${error}`)
+                }
+            }
+            buscar()
+            socket.on("mensajes",(dataMsj)=>{
+                console.log(`El mensaje es ${dataMsj}`)
+                let usuario=data
+                usuario.text=dataMsj
+                
+                io.sockets.emit("users",usuario)
+                async function escribir(){
+                    try {
+                        console.log("creado")
+                        let doc = await usersPath.create(usuario);
+                        return doc
+    
                     } catch (error) {
                         console.log(`Error al guardar ${error}`)
                     }
-            }
-            
-            io.sockets.emit("users",escribir(),dataMsj)
+                }
+                escribir()
+
+                    
+            })
+        
         })
     
-    })
-
-
     
-  
-    socket.on("disconnect",(reason)=>{
-        //Encontrar al usuario que envio el mensaje comparando el id del usuario con el id del socket
-        const user = users.find(user => user.id===socket.id)
-
-
-        if (user){
-            socket.broadcast.emit("notificacion", `${user.username} se ha ido del chat`)
-        }
-        io.sockets.emit("usuarios",users)
-
+        
+      
+    
+        
     })
     
-})
-
+    
 

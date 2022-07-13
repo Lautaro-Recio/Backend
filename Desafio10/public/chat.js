@@ -23,7 +23,9 @@ mailEnviado.addEventListener("click",()=>{
     
 })
 mensajeEnviado.addEventListener("click",()=>{
+    console.log("Enviasdo")
     socket.emit("mensajes",mensaje.value)
+    
 })
 
 socket.on("mensajesFirebase",(dataMsj)=>{
@@ -33,7 +35,7 @@ socket.on("mensajesFirebase",(dataMsj)=>{
         const mensjsPlantilla = `
         <li class="clearfix">
             <div class="message other-message float-left"> 
-                <p style="color:green;font-family:italic"> <span class="message-data-time" style="font-weigth:bolder;color:blue"> ${user.author.id} </span>
+                <p style="color:green;font-family:italic"> <span class="message-data-time" style="font-weigth:bolder;color:blue"> ${user.author} </span>
                 <span class="message-data-time" style="color:green;font-family:"italic"> ${dataMsj} </span></p> 
             </div>
         </li>
@@ -42,11 +44,9 @@ socket.on("mensajesFirebase",(dataMsj)=>{
 
     })
     .join("")
-    mensajesContainer.innerHTML = usuarios
+    mensajesContainer.innerHTML += msjs
 })
-socket.on("users",(data,dataMsj)=>{
-    console.log(data)
-    console.log(typeof data)
+socket.on("users",(data)=>{
 
     const usuarios = [data]
     .map(user=>{
@@ -54,8 +54,8 @@ socket.on("users",(data,dataMsj)=>{
         const mensjsPlantilla = `
         <li class="clearfix">
             <div class="message other-message float-left"> 
-                <p style="color:green;font-family:italic"> <span class="message-data-time" style="font-weigth:bolder;color:blue"> ${user.author.id} </span>
-                <span class="message-data-time" style="color:green;font-family:"italic"> ${dataMsj} </span></p> 
+                <p style="color:green;font-family:italic"> <span class="message-data-time" style="font-weigth:bolder;color:blue"> ${user.author} </span>
+                <span class="message-data-time" style="color:green;font-family:"italic"> ${user.text} </span></p> 
             </div>
         </li>
         `  
@@ -63,6 +63,6 @@ socket.on("users",(data,dataMsj)=>{
 
     })
     .join("")
-    mensajesContainer.innerHTML = usuarios
+    mensajesContainer.innerHTML += usuarios
 })
 
