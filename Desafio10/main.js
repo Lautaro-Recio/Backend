@@ -72,6 +72,7 @@ httpServer.listen(PORT,()=>console.log(`servidor escuchando en puerto ${PORT}`))
                         dentro esta la entidad author
                         dentro esta la entidad text
                     */
+                   
                         const schemaAuthor = new schema.Entity('author', {}, { idAttribute: 'id' });
                         const mensajesSchema= new schema.Entity("mensajes", { author: schemaAuthor }, { idAttribute: 'id' })
                         

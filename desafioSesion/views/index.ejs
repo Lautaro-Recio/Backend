@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include("./partials/head.ejs")%>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <!-- Se incrustan valores  -->
+            <%-include("./partials/header.ejs",{current:"index"})%>
+
+        </header>
+        <hr>
+        <main>
+            <div class="jumbotron">
+                <h2><%= bienvenidos %></h2>
+                <%-include("./form.ejs")%>
+
+            </div>
+        </main>
+        <hr>
+        <footer>
+            <%-include("./partials/footer.ejs")%>
+            
+        </footer>
+    </div>
+</body>
