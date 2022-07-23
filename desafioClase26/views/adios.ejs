@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include("./partials/head.ejs")%>
+
+</head>
+<body>
+    <div class="container">
+
+        <hr>
+        <main>
+            <div class="jumbotron">
+                <h2>Adios <%= user.email %></h2>
+                <form action="/login" method="GET">
+                    <input type="submit" style="margin-left:700px" value="volver"  >
+                </form>
+            </div>
+        </main>
+        <hr>
+        <footer>
+            <%-include("./partials/footer.ejs")%>
+            
+        </footer>
+    </div>
+    
+</body>

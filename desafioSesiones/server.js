@@ -1,6 +1,5 @@
 const express = require("express")
 const session = require("express-session")
-const MongoStore = require("connect-mongo")
 const app = express()
 
 const PORT=8080
@@ -12,17 +11,6 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 
-app.use(session({
-    store:MongoStore.create({
-        mongoUrl:"mongodb+srv://lautaro:O9LVdEcG1NLvDxrv@cluster0.e2jdpl2.mongodb.net/desafioSesiones?retryWrites=true&w=majority",
-        ttl:60    
-    }),   
-    
-    secret:"qwerty",
-    resave:true,
-    saveUninitialized:true
-    })
-)
 app.get("/login",(req,res)=>{
     if (req.session.usuario){
         const user = {
