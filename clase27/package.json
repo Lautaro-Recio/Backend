@@ -1,5 +1,5 @@
 {
-  "name": "desafioClase26",
+  "name": "clase27",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,13 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.0.1",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "express-session": "^1.17.3",
-    "minimist": "^1.2.6",
-    "mongoose": "^6.4.6",
-    "passport": "^0.6.0",
-    "passport-local": "^1.0.0"
+    "minimist": "^1.2.6"
   }
 }

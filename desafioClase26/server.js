@@ -4,6 +4,14 @@ const session = require("express-session")
 const passport = require("passport")
 const {Strategy: LocalStrategy} =require("passport-local")
 
+//argumentos
+const parseArgs = require("minimist")
+const args = process.argv.slice(2)
+const argsParseds = parseArgs(args)
+console.log(argsParseds)
+const PORT= Number(argsParseds.p) || 8080
+
+
 const mongoose =require ('mongoose')
 mongoose.connect('mongodb://localhost:27017/users')
 
@@ -11,6 +19,7 @@ const userSchema = require("./mongo/esquemas/userSchema")
 const app = express()
 
 const bcrypt =require ("bcrypt")
+const api = require("./router")
 
 app.use(session({
     secret:"qwerty",
@@ -20,7 +29,6 @@ app.use(session({
 
 
 
-const PORT=8080
 app.set("views","./views")
 app.set("view engine","ejs")
 app.use(express.static("./public"))
@@ -34,9 +42,10 @@ app.use(express.urlencoded({extended:true}))
 app.use(passport.initialize())
 app.use(passport.session())
 
+
 passport.use("login",new LocalStrategy((username,password,done) => {
     
-    return userSchema.findOne({username})
+    userSchema.findOne({username})
     .then(email =>{
         console.log("LOGIn")
         if(!email){
@@ -56,7 +65,7 @@ passport.use("login",new LocalStrategy((username,password,done) => {
 }))
 
 passport.use("signup",new LocalStrategy((username,password,done) => {
-    return userSchema.findOne({username})
+    userSchema.findOne({username})
     .then(email =>{
         console.log("Registrado")
         if(email){
@@ -138,6 +147,13 @@ const name = req.session.usuario
 
 })
 
+const destructureArgs = {...argsParseds}
+app.get("/info",(req,res)=>{
+
+    return res.render("info",{data:process,args:destructureArgs})
+})
+
+app.use("/api",api)
 
 //Esto siempre al fondo
 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include("./partials/head.ejs")%>
+
+</head>
+<body>
+    <div class="container">
+
+        <hr>
+        <main>
+            <div class="jumbotron">
+                <h2> Informacion</h2>
+                
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Argumentos de entrada</th>
+                        <th scope="col">Directorio Actual</th>
+                        <th scope="col">Id del proceso</th>
+                        <th scope="col">Version de node</th>
+                        <th scope="col">ubicacion del ejecutable</th>
+                        <th scope="col">Sistema operativo</th>
+                        <th scope="col">Uso de la memoria</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <th><%=(args)%></th>
+                                <th><%=data.cwd() %></th>
+                                <th><%=data.pid %></th>
+                                <th><%=data.version %></th>
+                                <th><%=data.execPath %></th>
+                                <th><%=data.plataform %></th>
+                                <th><%=JSON.stringify(process.memoryUsage(),null,2) %></th>
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>
+        </main>
+        <hr>
+        <footer>
+            <%-include("./partials/footer.ejs")%>
+            
+        </footer>
+    </div>
+    
+</body>
